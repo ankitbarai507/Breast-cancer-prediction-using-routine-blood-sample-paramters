@@ -30,7 +30,7 @@ def return_prediction(model,sample_json):
 
     class_ind = model.predict(features)[0]
     
-    return classes[class_ind][0]
+    return classes[class_ind]
 
 
 
