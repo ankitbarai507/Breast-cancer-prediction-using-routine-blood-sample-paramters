@@ -8,22 +8,25 @@ from tensorflow.keras.models import load_model
 import joblib
 
 
-
-def return_prediction(model,scaler,sample_json):
+def return_prediction(model,sample_json):
     
     # For larger data features, you should probably write a for loop
     # That builds out this array for you
     
-    s_len = sample_json['sepal_length']
-    s_wid = sample_json['sepal_width']
-    p_len = sample_json['petal_length']
-    p_wid = sample_json['petal_width']
+    f1 = sample_json['Age']
+    f2 = sample_json['BMI']
+    f3 = sample_json['Glucose']
+    f4 = sample_json['Insulin']
+    f5 = sample_json['HOMA']
+    f6 = sample_json['Leptin']
+    f7 = sample_json['Adiponectin']
+    f8 = sample_json['Resistin']
+    f9 = sample_json['MCP_1']
     
-    flower = [[s_len,s_wid,p_len,p_wid]]
     
-    flower = scaler.transform(flower)
+    flower = [[f1,f2,f3,f4,f5,f6,f7,f8,f9]]
     
-    classes = np.array(['setosa', 'versicolor', 'virginica'])
+    classes = np.array(['Benign', 'Malignant'])
     
     class_ind = model.predict_classes(flower)
     
@@ -37,21 +40,24 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'someRandomKey'
 
 
-# REMEMBER TO LOAD THE MODEL AND THE SCALER!
-flower_model = load_model("final_iris_model.h5")
-flower_scaler = joblib.load("iris_scaler.pkl")
-
+# REMEMBER TO LOAD THE MODEL 
+rf_model = joblib.load("rf.pkl")
 
 # Now create a WTForm Class
 # Lots of fields available:
 # http://wtforms.readthedocs.io/en/stable/fields.html
-class FlowerForm(FlaskForm):
-    sep_len = TextField('Sepal Length')
-    sep_wid = TextField('Sepal Width')
-    pet_len = TextField('Petal Length')
-    pet_wid = TextField('Petal Width')
+class breast_cancer_Form(FlaskForm):
+    Age = TextField('Age')
+    BMI = TextField('BMI')
+    Glucose = TextField('Glucose')
+    Insulin = TextField('Insulin')
+    HOMA = TextField('HOMA')
+    Leptin = TextField('Leptin')
+    Adiponectin = TextField('Adiponectin')
+    Resistin = TextField('Resistin')
+    MCP_1 = TextField('MCP.1')
 
-    submit = SubmitField('Analyze')
+    submit = SubmitField('Get Prediction')
 
 
 
@@ -59,15 +65,20 @@ class FlowerForm(FlaskForm):
 def index():
 
     # Create instance of the form.
-    form = FlowerForm()
+    form = breast_cancer_Form()
     # If the form is valid on submission (we'll talk about validation next)
     if form.validate_on_submit():
         # Grab the data from the breed on the form.
 
-        session['sep_len'] = form.sep_len.data
-        session['sep_wid'] = form.sep_wid.data
-        session['pet_len'] = form.pet_len.data
-        session['pet_wid'] = form.pet_wid.data
+        session['Age'] = form.Age.data
+        session['BMI'] = form.BMI.data
+        session['Glucose'] = form.Glucose.data
+        session['Insulin'] = form.Insulin.data
+        session['HOMA'] = form.HOMA.data
+        session['Leptin'] = form.Leptin.data
+        session['Adiponectin'] = form.Adiponectin.data
+        session['Resistin'] = form.Resistin.data
+        session['MCP_1'] = form.MCP_1.data
 
         return redirect(url_for("prediction"))
 
@@ -80,12 +91,17 @@ def prediction():
 
     content = {}
 
-    content['sepal_length'] = float(session['sep_len'])
-    content['sepal_width'] = float(session['sep_wid'])
-    content['petal_length'] = float(session['pet_len'])
-    content['petal_width'] = float(session['pet_wid'])
+    content['Age'] = float(session['Age'])
+    content['BMI'] = float(session['BMI'])
+    content['Glucose'] = float(session['Glucose'])
+    content['Insulin'] = float(session['Insulin'])
+    content['HOMA'] = float(session['HOMA'])
+    content['Leptin'] = float(session['Leptin'])
+    content['Adiponectin'] = float(session['Adiponectin'])
+    content['Resistin'] = float(session['Resistin'])
+    content['MCP_1'] = float(session['MCP_1'])
 
-    results = return_prediction(model=flower_model,scaler=flower_scaler,sample_json=content)
+    results = return_prediction(model=rf_model,sample_json=content)
 
     return render_template('prediction.html',results=results)
 

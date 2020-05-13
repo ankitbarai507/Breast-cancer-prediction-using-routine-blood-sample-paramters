@@ -1,15 +1,25 @@
-<h1>Welcome to IRIS predictions</h1>
-<h2>Please enter your flower measurements below:</h2>
+<h1>Welcome to Breast cancer predictions</h1>
+<h2>Please enter the following parameters below:</h2>
 <form  method="POST">
     {# This hidden_tag is a CSRF security feature. #}
     {{ form.hidden_tag() }}
-    {{ form.sep_len.label }} {{form.sep_len}}
+    {{ form.Age.label }} {{form.Age}}
     <br>
-    {{ form.sep_wid.label}} {{form.sep_wid}}
+    {{ form.BMI.label}} {{form.BMI}}
     <br>
-    {{form.pet_len.label}}{{form.pet_len}}
+    {{form.Glucose.label}}{{form.Glucose}}
     <br>
-    {{form.pet_wid.label}}{{form.pet_wid}}
+    {{form.Insulin.label}}{{form.Insulin}}
+    <br>
+    {{ form.HOMA.label }} {{form.HOMA}}
+    <br>
+    {{ form.Leptin.label}} {{form.Leptin}}
+    <br>
+    {{form.Adiponectin.label}}{{form.Adiponectin}}
+    <br>
+    {{form.Resistin.label}}{{form.Resistin}}
+    <br>
+    {{form.MCP_1.label}}{{form.MCP_1}}
     <br>
     {{ form.submit() }}
 </form>
