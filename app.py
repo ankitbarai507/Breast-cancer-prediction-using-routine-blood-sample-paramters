@@ -24,11 +24,11 @@ def return_prediction(model,sample_json):
     f9 = sample_json['MCP_1']
     
     
-    flower = [[f1,f2,f3,f4,f5,f6,f7,f8,f9]]
+    features = [[f1,f2,f3,f4,f5,f6,f7,f8,f9]]
     
     classes = np.array(['Benign', 'Malignant'])
 
-    class_ind = model.predict(df1[features].iloc[0].values.reshape(1,-1))[0]
+    class_ind = model.predict(features)[0]
     
     return classes[class_ind][0]
 
