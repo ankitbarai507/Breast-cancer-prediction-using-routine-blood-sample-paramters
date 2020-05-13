@@ -47,15 +47,15 @@ rf_model = joblib.load("rf.pkl")
 # Lots of fields available:
 # http://wtforms.readthedocs.io/en/stable/fields.html
 class breast_cancer_Form(FlaskForm):
-    Age = TextField('Age')
-    BMI = TextField('BMI')
-    Glucose = TextField('Glucose')
-    Insulin = TextField('Insulin')
+    Age = TextField('Age (years)')
+    BMI = TextField('BMI (kg/m2)')
+    Glucose = TextField('Glucose (mg/dL)')
+    Insulin = TextField('Insulin (µU/mL)')
     HOMA = TextField('HOMA')
-    Leptin = TextField('Leptin')
-    Adiponectin = TextField('Adiponectin')
-    Resistin = TextField('Resistin')
-    MCP_1 = TextField('MCP.1')
+    Leptin = TextField('Leptin (ng/mL)')
+    Adiponectin = TextField('Adiponectin (µg/mL)')
+    Resistin = TextField('Resistin (ng/mL)')
+    MCP_1 = TextField('MCP-1(pg/dL)')
 
     submit = SubmitField('Get Prediction')
 
